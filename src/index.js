@@ -5,7 +5,7 @@ import './style/style.scss';
 import GetMarvelData from "./services/GetMarvelData";
 
 const NewGetMarvelData = new GetMarvelData();
-NewGetMarvelData.resPostCharacter(1011196).then(data => console.log(data));
+// NewGetMarvelData.resPostAllCharacter().then(data => console.log(data));
 
 ReactDOM.render(
   <React.StrictMode>

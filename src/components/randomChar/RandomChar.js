@@ -13,27 +13,37 @@ class RandomChar extends Component{
         this.changeCharacter();
     }
     state = {
-        name: null,
-        img: null,
-        description: null,
-        homepage: null,
-        wiki: null
+        // Записываем состояние в отдельное совойство, 
+        // а не в корень, чтобы иметь возможность расширять 
+        // состояния дописывая в него новые свойства
+        char: {}
     }    
+
+    // Не обязательно. Выводим отдельную в функцию
+    // запись состояния
+    _setState = (char) => { 
+        this.setState({char})
+    }
 
     changeCharacter = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
         // Конструктор с запросом на сервер.
         this.getMarvelData
-        // Метод, в котором храниться в fetch
+        // Метод, в котором храниться в fetch        
         .resPostCharacter(id)
         // Промисы
-        .then(data=> this.setState({
-            data       
-        }));
+        // Не обязательно. Запись состояния вынесена 
+        // в отдельную функцию this._setState. Полученный
+        // ответ от сервера записывается в эту функцию без явного
+        // написания об этом.
+        // .then(char=> this._setState(char)) длинная запись;
+        .then(this._setState);
     }
 
     render(){
-        const {name, img, homepage, wiki, description} = this.state;
+    //    Поскольку вытаскиваем не из корня состояния, а из одного из 
+    //     объектов состояния
+        const {char: {name, img, homepage, wiki, description}} = this.state;
 
         return (
             <div className="randomchar">
