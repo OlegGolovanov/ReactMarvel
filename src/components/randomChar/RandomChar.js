@@ -22,15 +22,13 @@ class RandomChar extends Component{
 
     changeCharacter = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
+        // Конструктор с запросом на сервер.
         this.getMarvelData
+        // Метод, в котором храниться в fetch
         .resPostCharacter(id)
+        // Промисы
         .then(data=> this.setState({
-            name: data.data.results[0].name,
-            img: data.data.results[0].thumbnail.path + "." + data.data.results[0].thumbnail.extension,
-            description: data.data.results[0].description,
-            homepage: data.data.results[0].urls[0].url,
-            wiki: data.data.results[0].urls[1].url,
-
+            data       
         }));
     }
 

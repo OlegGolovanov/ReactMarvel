@@ -6,10 +6,12 @@ class GetMarvelData{
     }       
     post = async(url) => {        
         let res = await fetch(url);
-        return await res.json();
+        return this._transformation(await res.json())
     }
 
-    resPostAllCharacter = () => {
+    // Не обязательно. Чтобы иметь возможность обращаться
+    // к разным адресам
+    resPostAllCharacter = () => {        
         return this.post(`
         ${this.address}characters?limit=9&offset=210&${this.apikey}`
         )
@@ -19,8 +21,17 @@ class GetMarvelData{
         ${this.address}characters/${id}?${this.apikey}`
         )
     }
-
-
+    _transformation = (data) => {
+        return(
+            {
+            name: data.data.results[0].name,
+            img: data.data.results[0].thumbnail.path + "." + data.data.results[0].thumbnail.extension,
+            description: data.data.results[0].description,
+            homepage: data.data.results[0].urls[0].url,
+            wiki: data.data.results[0].urls[1].url
+            }
+        )
+    }
 }
 
 export default GetMarvelData;
