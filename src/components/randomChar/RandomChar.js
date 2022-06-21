@@ -3,6 +3,7 @@ import thor from '../../resources/img/thor.jpeg';
 import mjolnir from '../../resources/img/mjolnir.png';
 import { Component } from 'react/cjs/react.production.min';
 import GetMarvelData from '../../services/GetMarvelData'
+import Spinner from "../Spinner/spinner"
 
 class RandomChar extends Component{
 
@@ -16,13 +17,18 @@ class RandomChar extends Component{
         // Записываем состояние в отдельное совойство, 
         // а не в корень, чтобы иметь возможность расширять 
         // состояния дописывая в него новые свойства
-        char: {}
+        char: {},
+        spinner: true,
     }    
 
     // Не обязательно. Выводим отдельную в функцию
     // запись состояния
     _setState = (char) => { 
-        this.setState({char})
+        this.setState({
+            char,
+            spinner: false
+        })
+        console.log(this.setState.char);
     }
 
     changeCharacter = () => {
@@ -43,27 +49,11 @@ class RandomChar extends Component{
     render(){
     //    Поскольку вытаскиваем не из корня состояния, а из одного из 
     //     объектов состояния
-        const {char: {name, img, homepage, wiki, description}} = this.state;
+        const {spinner, char} = this.state;
 
         return (
             <div className="randomchar">
-                <div className="randomchar__block">
-                    <img src={img} alt="Random character" className="randomchar__img"/>
-                    <div className="randomchar__info">
-                        <p className="randomchar__name">{name}</p>
-                        <p className="randomchar__descr">
-                            {description}
-                        </p>
-                        <div className="randomchar__btns">
-                            <a href={homepage} className="button button__main">
-                                <div className="inner">Homepage</div>
-                            </a>
-                            <a href={wiki} className="button button__secondary">
-                                <div className="inner">Wiki</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                {spinner ? <Spinner/> : <RandomCharShow char= {char}/>}
                 <div className="randomchar__static">
                     <p className="randomchar__title">
                         Random character for today!<br/>
@@ -80,6 +70,31 @@ class RandomChar extends Component{
             </div>
         )
     }
+}
+
+const RandomCharShow = ({char}) => {
+    const {name, img, homepage, wiki, description} = char;
+    // console.log(this.state.spinner);
+
+    return (
+        <div className="randomchar__block">
+            <img src={img} alt="Random character" className="randomchar__img"/>
+            <div className="randomchar__info">
+                <p className="randomchar__name">{name}</p>
+                <p className="randomchar__descr">
+                    {description}
+                </p>
+                <div className="randomchar__btns">
+                    <a href={homepage} className="button button__main">
+                        <div className="inner">Homepage</div>
+                    </a>
+                    <a href={wiki} className="button button__secondary">
+                        <div className="inner">Wiki</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default RandomChar;
