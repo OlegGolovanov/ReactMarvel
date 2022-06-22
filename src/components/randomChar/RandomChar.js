@@ -1,9 +1,9 @@
 import './randomChar.scss';
-import thor from '../../resources/img/thor.jpeg';
 import mjolnir from '../../resources/img/mjolnir.png';
 import { Component } from 'react/cjs/react.production.min';
 import GetMarvelData from '../../services/GetMarvelData'
 import Spinner from "../Spinner/spinner"
+import Error from "../error/error.js"
 
 class RandomChar extends Component{
 
@@ -19,6 +19,7 @@ class RandomChar extends Component{
         // состояния дописывая в него новые свойства
         char: {},
         spinner: true,
+        error: false
     }    
 
     // Не обязательно. Выводим отдельную в функцию
@@ -28,7 +29,14 @@ class RandomChar extends Component{
             char,
             spinner: false
         })
-        console.log(this.setState.char);
+    }
+    _setStateError = () => { 
+        this.setState({
+            spinner: false,
+            error: true
+        })
+        console.log('error');
+        console.log(this.state.error);
     }
 
     changeCharacter = () => {
@@ -43,30 +51,23 @@ class RandomChar extends Component{
         // ответ от сервера записывается в эту функцию без явного
         // написания об этом.
         // .then(char=> this._setState(char)) длинная запись;
-        .then(this._setState);
+        .then(this._setState)
+        .catch(this._setStateError);
     }
 
     render(){
     //    Поскольку вытаскиваем не из корня состояния, а из одного из 
     //     объектов состояния
-        const {spinner, char} = this.state;
+        const {spinner, char, error} = this.state;
+        const spinnerBlock = spinner ? <Spinner/> : null;
+        const charBlock = !(spinner || error) ?  <RandomCharShow char= {char}/> :null;
+        const errorBlock = error ? <Error/> : null
 
         return (
-            <div className="randomchar">
-                {spinner ? <Spinner/> : <RandomCharShow char= {char}/>}
-                <div className="randomchar__static">
-                    <p className="randomchar__title">
-                        Random character for today!<br/>
-                        Do you want to get to know him better?
-                    </p>
-                    <p className="randomchar__title">
-                        Or choose another one
-                    </p>
-                    <button className="button button__main">
-                        <div className="inner">try it</div>
-                    </button>
-                    <img src={mjolnir} alt="mjolnir" className="randomchar__decoration"/>
-                </div>
+            <div>
+                {spinnerBlock}
+                {charBlock}
+                {errorBlock}                
             </div>
         )
     }
