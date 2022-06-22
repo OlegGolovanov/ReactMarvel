@@ -74,8 +74,6 @@ class RandomChar extends Component{
 
 const RandomCharShow = ({char}) => {
     const {name, img, homepage, wiki, description} = char;
-    // console.log(this.state.spinner);
-
     return (
         <div className="randomchar__block">
             <img src={img} alt="Random character" className="randomchar__img"/>
