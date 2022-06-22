@@ -21,6 +21,12 @@ class RandomChar extends Component{
         spinner: true,
         error: false
     }    
+    componentDidMount(){}
+    componentDidUpdate(){}
+    componentWillUnmount(){}
+    componentDidMount(){}
+    componentDidUpdate(){}
+    componentWillUnmount(){}
 
     // Не обязательно. Выводим отдельную в функцию
     // запись состояния

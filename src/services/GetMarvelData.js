@@ -14,6 +14,8 @@ class GetMarvelData{
         return await res.json()
     }
 
+    
+
     // Не обязательно. Чтобы иметь возможность обращаться
     // к разным адресам
     resPostAllCharacter = async () => {        
