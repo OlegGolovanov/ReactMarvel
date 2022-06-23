@@ -20,13 +20,7 @@ class RandomChar extends Component{
         char: {},
         spinner: true,
         error: false
-    }    
-    componentDidMount(){}
-    componentDidUpdate(){}
-    componentWillUnmount(){}
-    componentDidMount(){}
-    componentDidUpdate(){}
-    componentWillUnmount(){}
+    }
 
     // Не обязательно. Выводим отдельную в функцию
     // запись состояния
@@ -41,8 +35,6 @@ class RandomChar extends Component{
             spinner: false,
             error: true
         })
-        console.log('error');
-        console.log(this.state.error);
     }
 
     changeCharacter = () => {
@@ -60,6 +52,7 @@ class RandomChar extends Component{
         .then(this._setState)
         .catch(this._setStateError);
     }
+    
 
     render(){
     //    Поскольку вытаскиваем не из корня состояния, а из одного из 
@@ -92,15 +85,15 @@ class RandomChar extends Component{
     }
 }
 
-const RandomCharShow = ({char}) => {
+
+const RandomCharShow = ({char}) => {    
     const {name, img, homepage, wiki, description} = char;
-    let styleRandomchar = '';
+    let styleRandomchar = '';   
     if(img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         styleRandomchar = {objectFit: "contain"}
     } else {
-        styleRandomchar = ""
+        styleRandomchar = {objectFit: "cover"}
     }
-    console.log(styleRandomchar);
     return (
         <div className="randomchar__block">
             <img style={styleRandomchar} src={img} alt="Random character" className="randomchar__img"/>
