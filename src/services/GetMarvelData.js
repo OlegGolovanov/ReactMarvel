@@ -27,7 +27,7 @@ class GetMarvelData{
         // берем каждый объект и извлекаем из него необходимые свойства.
         // В this._transformation не записываем аргумен, по скольку он туда
         // передается по умолчанию
-        return data.data.results.map(this._transformation)
+        return await data.data.results.map(this._transformation)
         
     }
     resPostCharacter = async (id) => {

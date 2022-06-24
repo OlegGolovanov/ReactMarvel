@@ -5,13 +5,10 @@ import GetMarvelData from '../../services/GetMarvelData'
 import Spinner from "../Spinner/spinner"
 import Error from "../error/error.js"
 
-class RandomChar extends Component{
-
-    
+class RandomChar extends Component{   
     constructor(props){
         super(props)        
         this.getMarvelData = new GetMarvelData();
-        this.changeCharacter();
     }
     state = {
         // Записываем состояние в отдельное совойство, 
@@ -20,7 +17,7 @@ class RandomChar extends Component{
         char: {},
         spinner: true,
         error: false
-    }
+    }    
 
     // Не обязательно. Выводим отдельную в функцию
     // запись состояния
@@ -30,6 +27,8 @@ class RandomChar extends Component{
             spinner: false
         })
     }
+    // Не обязательно. Смена сосотояния 
+    // при ошибке
     _setStateError = () => { 
         this.setState({
             spinner: false,
@@ -37,6 +36,8 @@ class RandomChar extends Component{
         })
     }
 
+    // Загрузка данных из сервера
+    // для сайта
     changeCharacter = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
         // Конструктор с запросом на сервер.
@@ -52,9 +53,12 @@ class RandomChar extends Component{
         .then(this._setState)
         .catch(this._setStateError);
     }
-    
 
-    render(){
+    componentDidMount(){
+        this.changeCharacter();
+    }    
+
+    render(){        
     //    Поскольку вытаскиваем не из корня состояния, а из одного из 
     //     объектов состояния
         const {spinner, char, error} = this.state;
