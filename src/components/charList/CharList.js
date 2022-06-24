@@ -30,9 +30,12 @@ class CharList extends Component{
         this.post()
     }
 
-    chars = (chars) => {
-        chars.forEach((item, i) => {console.log(item);});
-    }
+
+    // chars = (chars) => {
+    //     chars.forEach((item, i) => {console.log(item);});
+    // }
+
+    
 
     render(){
         const {chars} = this.state;
