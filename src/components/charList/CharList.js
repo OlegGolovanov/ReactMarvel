@@ -8,8 +8,8 @@ import Error from "../error/error.js"
 class CharList extends Component{
     state = {
         chars: [],
-        error: true,
-        spinner: false,
+        error: false,
+        spinner: true,
     }
 
     getMarvelData = new GetMarvelData();   
@@ -18,56 +18,48 @@ class CharList extends Component{
         this.getMarvelData.
         resPostAllCharacter()
         .then(this._creationChars)
+        .catch(this._setStateError);
+    }
+
+    _setStateError = () => {
+        this.setState({
+            error: true,
+            spinner: false})
     }
 
     _creationChars = (chars) => {
-        this.setState({chars})
+        this.setState({
+            chars,
+            spinner: false,
+        })
     }
     
     render(){
-        const {chars} = this.state;
-        if(chars.length > 0) {
-            chars.forEach(item => {console.log(item);});
-        }
+        const {chars, error, spinner} = this.state;
+        const spinnerBlock = spinner ? <Spinner/> : null
+        const errorBlock = error ? <Error/> : null
+        let li = chars.map(item => {
+                
+                let styleRandomchar = '';   
+                if(item.img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+                    styleRandomchar = {objectFit: "contain"}
+                } else {
+                    styleRandomchar = {objectFit: "cover"}
+                }
+                return(
+                    <li className="char__item">
+                        <img style={styleRandomchar} src={item.img} alt="abyss"/>
+                        <div className="char__name">{item.name}</div>
+                    </li>
+                    )                
+                });   
         return (
+
             <div className="char__list">
                 <ul className="char__grid">
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item char__item_selected">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
-                    <li className="char__item">
-                        <img src={abyss} alt="abyss"/>
-                        <div className="char__name">Abyss</div>
-                    </li>
+                    {li}
+                    {spinnerBlock}
+                    {errorBlock}                    
                 </ul>
                 <button className="button button__main button__long">
                     <div className="inner">load more</div>
