@@ -6,41 +6,29 @@ import Spinner from "../Spinner/spinner"
 import Error from "../error/error.js"
 
 class CharList extends Component{
-    constructor(props){
-        super(props)
-        this.getMarvelData = new GetMarvelData()
-    }
     state = {
-        chars: {},
+        chars: [],
         error: true,
         spinner: false,
+    }
+
+    getMarvelData = new GetMarvelData();   
+
+    componentDidMount(){
+        this.getMarvelData.
+        resPostAllCharacter()
+        .then(this._creationChars)
     }
 
     _creationChars = (chars) => {
         this.setState({chars})
     }
     
-    post = () => {
-        this.getMarvelData.
-        resPostAllCharacter()
-        .then(this._creationChars)
-    }
-
-    componentDidMount(){
-        this.post()
-    }
-
-
-    // chars = (chars) => {
-    //     chars.forEach((item, i) => {console.log(item);});
-    // }
-
-    
-
     render(){
         const {chars} = this.state;
-        console.log(chars);
-        // this.chars(chars);
+        if(chars.length > 0) {
+            chars.forEach(item => {console.log(item);});
+        }
         return (
             <div className="char__list">
                 <ul className="char__grid">

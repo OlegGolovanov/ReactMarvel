@@ -6,10 +6,6 @@ import Spinner from "../Spinner/spinner"
 import Error from "../error/error.js"
 
 class RandomChar extends Component{   
-    constructor(props){
-        super(props)        
-        this.getMarvelData = new GetMarvelData();
-    }
     state = {
         // Записываем состояние в отдельное совойство, 
         // а не в корень, чтобы иметь возможность расширять 
@@ -18,6 +14,7 @@ class RandomChar extends Component{
         spinner: true,
         error: false
     }    
+    getMarvelData = new GetMarvelData();
 
     // Не обязательно. Выводим отдельную в функцию
     // запись состояния
