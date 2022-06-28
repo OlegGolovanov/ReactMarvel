@@ -5,20 +5,32 @@ import CharInfo from "../charInfo/CharInfo";
 
 import decoration from '../../resources/img/vision.png';
 
-const App = () => {
-    return (
-        <div className="app">
-            <AppHeader/>
-            <main>
-                <RandomChar/>
-                <div className="char__content">
-                    <CharList/>
-                    <CharInfo/>
-                </div>
-                <img className="bg-decoration" src={decoration} alt="vision"/>
-            </main>
-        </div>
-    )
+import { Component } from "react/cjs/react.production.min";
+
+class App extends Component {
+    state = {
+        id: ""
+    }
+
+    getId = (id) => {
+        this.setState({id})
+    }
+    
+    render(){
+        return (
+            <div className="app">
+                <AppHeader/>
+                <main>
+                    <RandomChar/>
+                    <div className="char__content">
+                        <CharList getId = {this.getId}/>
+                        <CharInfo/>
+                    </div>
+                    <img className="bg-decoration" src={decoration} alt="vision"/>
+                </main>
+            </div>
+        )
+    }
 }
 
 export default App;

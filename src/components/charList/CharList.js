@@ -47,7 +47,10 @@ class CharList extends Component{
                 }
 
                 return(
-                    <li className="char__item">
+                    <li
+                    onClick={()=> {this.props.getId(item.id)}}
+                    key={item.id} 
+                    className="char__item">
                         <img style={styleRandomchar} src={item.img} alt="abyss"/>
                         <div className="char__name">{item.name}</div>
                     </li>
