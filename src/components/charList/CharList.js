@@ -38,14 +38,14 @@ class CharList extends Component{
         const {chars, error, spinner} = this.state;
         const spinnerBlock = spinner ? <Spinner/> : null
         const errorBlock = error ? <Error/> : null
-        let li = chars.map(item => {
-                
+        let li = chars.map(item => {                
                 let styleRandomchar = '';   
                 if(item.img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                     styleRandomchar = {objectFit: "contain"}
                 } else {
                     styleRandomchar = {objectFit: "cover"}
                 }
+                
                 return(
                     <li className="char__item">
                         <img style={styleRandomchar} src={item.img} alt="abyss"/>
