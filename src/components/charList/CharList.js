@@ -45,7 +45,7 @@ class CharList extends Component{
                 } else {
                     styleRandomchar = {objectFit: "cover"}
                 }
-                
+
                 return(
                     <li className="char__item">
                         <img style={styleRandomchar} src={item.img} alt="abyss"/>
