@@ -33,11 +33,19 @@ class RandomChar extends Component{
         })
     }
 
+    _onSpinner =()=> {
+        this.setState({
+            spinner: true           
+        })
+    }  
+
     // Загрузка данных из сервера
     // для сайта
     changeCharacter = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
-        // Конструктор с запросом на сервер.
+        // Чтобы спиннер запускался в момнет запроса данных с сервера
+        this._onSpinner()
+        // Конструктор с запросом на сервер.       
         this.getMarvelData
         // Метод, в котором храниться в fetch        
         .resPostCharacter(id)

@@ -25,7 +25,7 @@ class GetMarvelData{
         // Если возвращается массив с объектами, то вначале их
         // перебираем через .map, а затем также как в  resPostCharacter
         // берем каждый объект и извлекаем из него необходимые свойства.
-        // В this._transformation не записываем аргумен, по скольку он туда
+        // В this._transformation не записываем аргумент, по скольку он туда
         // передается по умолчанию
         return await data.data.results.map(this._transformation)
         
