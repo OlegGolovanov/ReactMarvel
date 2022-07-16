@@ -1,5 +1,4 @@
 import './charInfo.scss';
-import thor from '../../resources/img/thor.jpeg';
 
 import { Component} from 'react/cjs/react.production.min';
 
@@ -11,7 +10,7 @@ import Skeleton from "../skeleton/Skeleton"
 
 class CharInfo extends Component {
     state = {
-        char: [],
+        char: null,
         error: false,
         spinner: false
     }
@@ -80,10 +79,10 @@ class CharInfo extends Component {
         const errorMessage = error ? <Error/> : null        
         // Если задействованны или спиннер, ошибка, выбран персонаж, то ничего не показывается,
         // а если ничего не задействованно то показывается заглушка (скелетон)
-        const skeleton = spinner || error || !char ? null : <Skeleton/>  
+        const skeleton = spinner || error || char ? null : <Skeleton/>  
         // Если отключены спиннер, ошибка и выбран персонаж, то показывается
         // персонаж
-        const charInfo = !(spinner || error || char) ? <Char char = {char}/> : null
+        const charInfo = !(spinner || error || !char) ? <Char char = {char}/> : null
         return (
             <div className="char__info">               
                 {skeleton}
@@ -98,11 +97,17 @@ class CharInfo extends Component {
 
 
 const Char = ({char}) => {    
-    const {name, img, homepage, wiki, description, id} = char;
+    const {name, img, homepage, wiki, description, comics} = char;
+    let styleRandomchar = {};   
+    if(img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+        styleRandomchar = {objectFit: "contain"}
+    } else {
+        styleRandomchar = {objectFit: "cover"}
+    }
     return(
         <>
             <div className="char__basics">
-                <img src={img} alt="abyss"/>
+                <img style={styleRandomchar} src={img} alt="abyss"/>
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
@@ -118,38 +123,22 @@ const Char = ({char}) => {
             <div className="char__descr">
                 {description}
             </div>
-            <div className="char__comics">Comics:</div>
+            <div className="char__comics">
+                {comics.length === 0 ? "Комиксы отсутствуют" : "Comics:"}
+                </div>
             <ul className="char__comics-list">
-                <li className="char__comics-item">
-                    All-Winners Squad: Band of Heroes (2011) #3
-                </li>
-                <li className="char__comics-item">
-                    Alpha Flight (1983) #50
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #503
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #504
-                </li>
-                <li className="char__comics-item">
-                    AMAZING SPIDER-MAN VOL. 7: BOOK OF EZEKIEL TPB (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Amazing-Spider-Man: Worldwide Vol. 8 (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Asgardians Of The Galaxy Vol. 2: War Of The Realms (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Vengeance (2011) #4
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1963) #1
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1996) #1
-                </li>
+                {comics.map((item, i)=>{
+                    if (i > 9) {
+                        return null
+                    }                                       
+                    return( 
+                        <li key={item.name} className="char__comics-item">
+                            {item.name}
+                        </li>
+                    )
+                    
+                })}
+                
             </ul>
         
         </>

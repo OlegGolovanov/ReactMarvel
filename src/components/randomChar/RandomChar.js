@@ -97,7 +97,7 @@ class RandomChar extends Component{
 
 const RandomCharShow = ({char}) => {    
     const {name, img, homepage, wiki, description} = char;
-    let styleRandomchar = '';   
+    let styleRandomchar = {};   
     if(img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         styleRandomchar = {objectFit: "contain"}
     } else {

@@ -38,7 +38,7 @@ class GetMarvelData{
     }
 
     _сorrectionDescription = (description) => {
-        if (description == "") {
+        if (description === "") {
             return description = this.lorem.slice(0, 200) + "..."
         }
     }
@@ -51,7 +51,7 @@ class GetMarvelData{
             homepage: char.urls[0].url,
             wiki: char.urls[1].url,
             id: char.id,
-            comics: char.comics
+            comics: char.comics.items
         }
         
     }

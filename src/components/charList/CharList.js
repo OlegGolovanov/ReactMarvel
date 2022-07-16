@@ -1,5 +1,4 @@
 import './charList.scss';
-import abyss from '../../resources/img/abyss.jpg';
 import { Component } from 'react/cjs/react.production.min';
 import GetMarvelData from '../../services/GetMarvelData'
 import Spinner from "../Spinner/spinner"
@@ -15,8 +14,8 @@ class CharList extends Component{
     getMarvelData = new GetMarvelData();   
 
     componentDidMount(){
-        this.getMarvelData.
-        resPostAllCharacter()
+        this.getMarvelData
+        .resPostAllCharacter()
         .then(this._creationChars)
         .catch(this._setStateError);
     }
@@ -39,7 +38,7 @@ class CharList extends Component{
         const spinnerBlock = spinner ? <Spinner/> : null
         const errorBlock = error ? <Error/> : null
         let li = chars.map(item => {                
-                let styleRandomchar = '';   
+                let styleRandomchar = {};   
                 if(item.img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                     styleRandomchar = {objectFit: "contain"}
                 } else {
