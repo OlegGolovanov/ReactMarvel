@@ -38,7 +38,7 @@ class RandomChar extends Component{
             spinner: true           
         })
     }  
-
+    
     // Загрузка данных из сервера
     // для сайта
     changeCharacter = () => {
