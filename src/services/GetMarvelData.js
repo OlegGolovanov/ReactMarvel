@@ -6,30 +6,33 @@ class GetMarvelData{
         this.lorem = `Lorem ipsum dolor sit amet consectetur adipisicing
         elit. Impedit omnis qui fugit illum, voluptate iusto consequatur 
         rem officia doloribus eveniet quaerat odit exercitationem corporis,
-        cum sit molestias, delectus officiis veniam?`
-        
-    }       
+        cum sit molestias, delectus officiis veniam?`;
+        this.baseСharacter = 210;        
+    }
+    // Запрос данных с сервера    
     post = async(url) => {        
         let res = await fetch(url);
         return await res.json()
-    }
-
-    
+    }    
 
     // Не обязательно. Чтобы иметь возможность обращаться
     // к разным адресам
-    resPostAllCharacter = async () => {        
+    // Обращение к группе персонажей
+    resPostAllCharacter = async (offsetCharacter = this.baseСharacter) => {        
         const data = await this.post(`
-        ${this.address}characters?limit=9&offset=210&${this.apikey}`
+        ${this.address}characters?limit=9&offset=${offsetCharacter}&${this.apikey}`
         )
         // Если возвращается массив с объектами, то вначале их
         // перебираем через .map, а затем также как в  resPostCharacter
         // берем каждый объект и извлекаем из него необходимые свойства.
         // В this._transformation не записываем аргумент, по скольку он туда
         // передается по умолчанию
-        return await data.data.results.map(this._transformation)
-        
+        return await data.data.results.map(this._transformation)        
     }
+
+    // Не обязательно. Чтобы иметь возможность обращаться
+    // к разным адресам
+    // Обращение к персонажу по id
     resPostCharacter = async (id) => {
         const data = await this.post(`
         ${this.address}characters/${id}?${this.apikey}`

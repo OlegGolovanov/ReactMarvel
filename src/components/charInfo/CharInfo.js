@@ -30,15 +30,15 @@ class CharInfo extends Component {
         // Конструктор с запросом на сервер.       
         this.getMarvelData
         // Метод, в котором храниться в fetch        
-        .resPostCharacter(id)
-        // Промисы
-        // Не обязательно. Запись состояния вынесена 
-        // в отдельную функцию this._setState. Полученный
-        // ответ от сервера записывается в эту функцию без явного
-        // написания об этом.
-        // .then(char=> this._setState(char)) длинная запись;
-        .then(this._creationChar)
-        .catch(this._setStateError);
+            .resPostCharacter(id)
+            // Промисы
+            // Не обязательно. Запись состояния вынесена 
+            // в отдельную функцию this._setState. Полученный
+            // ответ от сервера записывается в эту функцию без явного
+            // написания об этом.
+            // .then(char=> this._setState(char)) длинная запись;
+            .then(this._creationChar)
+            .catch(this._setStateError);
     }    
 
     componentDidMount(){
