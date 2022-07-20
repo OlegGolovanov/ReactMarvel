@@ -15,22 +15,23 @@ class CharList extends Component{
     getMarvelData = new GetMarvelData();
 
     componentDidMount(){
-        this.getMarvelData
-            .resPostAllCharacter()
-            .then(this._creationChars)
-            .catch(this._setStateError);        
+        this.getServerChars()       
     }
 
     componentDidUpdate(prevProps, prevState) {
         if(this.state.counter !== prevState.counter) {
-            this.getMarvelData       
-            .resPostAllCharacter(this.state.counter)
-            .then(this._creationChars)
-            .catch(this._setStateError);
+           this.getServerChars() 
         }
     }
 
-    onAddNewListChars = () => {
+    getServerChars = ()=> {
+        this.getMarvelData       
+            .resPostAllCharacter(this.state.counter)
+            .then(this._creationChars)
+            .catch(this._setStateError);
+    }
+
+    onOffsetChars = () => {
         this.setState(({counter})=> ({
             counter: counter + 9
         }))           
@@ -79,7 +80,7 @@ class CharList extends Component{
                     {spinnerBlock}
                     {errorBlock}                    
                 </ul>
-                <button onClick={this.onAddNewListChars} className="button button__main button__long">
+                <button onClick={this.onOffsetChars} className="button button__main button__long">
                     <div className="inner">load more</div>
                 </button>
             </div>
