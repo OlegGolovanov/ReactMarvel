@@ -9,29 +9,31 @@ class CharList extends Component{
         chars: [],
         error: false,
         spinner: true,
+        counter: 210
     }
 
     getMarvelData = new GetMarvelData();
 
     componentDidMount(){
-        // this.onAddNewListChars()
         this.getMarvelData
             .resPostAllCharacter()
             .then(this._creationChars)
-            .catch(this._setStateError);
+            .catch(this._setStateError);        
     }
 
-    // componentDidUpdate(prevState) {
-    //     if(this.state.chars !== prevState.chars) {
-    //         this._addNewListChars()
-    //     }
-    // }
-
-    onAddNewListChars(offset) {
-        this.getMarvelData
-            .resPostAllCharacter(offset)
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.counter !== prevState.counter) {
+            this.getMarvelData       
+            .resPostAllCharacter(this.state.counter)
             .then(this._creationChars)
             .catch(this._setStateError);
+        }
+    }
+
+    onAddNewListChars = () => {
+        this.setState(({counter})=> ({
+            counter: counter + 9
+        }))           
     }
 
     _setStateError = () => {
@@ -42,22 +44,15 @@ class CharList extends Component{
 
     _creationChars = (chars) => {
         this.setState({
-            chars: chars,
+            chars: [...this.state.chars, ...chars ],
             spinner: false,
         })
-    }
-
-    _creationNewListChars = (chars) => {
-        this.setState({
-            chars: this.state.chars.push(...chars)
-        })       
     }
     
     render(){
         const {chars, error, spinner} = this.state;
         const spinnerBlock = spinner ? <Spinner/> : null
         const errorBlock = error ? <Error/> : null
-        console.log(chars);
         let li = chars.map(item => {                
                 let styleRandomchar = {};   
                 if(item.img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
@@ -84,7 +79,7 @@ class CharList extends Component{
                     {spinnerBlock}
                     {errorBlock}                    
                 </ul>
-                <button onClick={(e)=> {this.onAddNewListChars(e, 219)}} className="button button__main button__long">
+                <button onClick={this.onAddNewListChars} className="button button__main button__long">
                     <div className="inner">load more</div>
                 </button>
             </div>
