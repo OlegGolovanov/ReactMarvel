@@ -22,6 +22,7 @@ class CharInfo extends Component {
         // Если id еще не выбран, то команды ниже не 
         // запустятся, поскольку сработает return
         const {id} = this.props
+        
         if(!id) {
             return
         }
