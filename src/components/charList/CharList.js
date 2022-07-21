@@ -9,7 +9,9 @@ class CharList extends Component{
         chars: [],
         error: false,
         spinner: true,
-        counter: 210
+        counter: 1544,
+        activeBTN: false,
+        finishedChars: false,
     }
 
     getMarvelData = new GetMarvelData();
@@ -31,9 +33,11 @@ class CharList extends Component{
             .catch(this._setStateError);
     }
 
-    onOffsetChars = () => {
+    onCharsLoading = () => {
+        
         this.setState(({counter})=> ({
-            counter: counter + 9
+            counter: counter + 9,
+            activeBTN: true
         }))           
     }
 
@@ -44,14 +48,18 @@ class CharList extends Component{
     }
 
     _creationChars = (chars) => {
-        this.setState({
-            chars: [...this.state.chars, ...chars ],
-            spinner: false,
-        })
+        if (chars.length > 0) {
+            this.setState({
+                chars: [...this.state.chars, ...chars ],
+                spinner: false,
+                activeBTN: false
+            })  
+        };
+        
     }
     
     render(){
-        const {chars, error, spinner} = this.state;
+        const {chars, error, spinner, activeBTN} = this.state;
         const spinnerBlock = spinner ? <Spinner/> : null
         const errorBlock = error ? <Error/> : null
         let li = chars.map(item => {                
@@ -80,7 +88,10 @@ class CharList extends Component{
                     {spinnerBlock}
                     {errorBlock}                    
                 </ul>
-                <button onClick={this.onOffsetChars} className="button button__main button__long">
+                <button
+                    disabled={activeBTN}
+                    onClick={this.onCharsLoading} 
+                    className="button button__main button__main_active button__long">
                     <div className="inner">load more</div>
                 </button>
             </div>
