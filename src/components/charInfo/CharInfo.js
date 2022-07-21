@@ -14,6 +14,7 @@ class CharInfo extends Component {
         error: false,
         spinner: false
     }
+    
 
     getMarvelData = new GetMarvelData();   
    

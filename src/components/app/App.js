@@ -10,7 +10,7 @@ import { Component } from "react/cjs/react.production.min";
 
 class App extends Component {
     state = {
-        id: ""
+        id: null
     }
 
     getId = (id) => {
