@@ -13,7 +13,9 @@ class CharList extends Component{
         counter: 1548,
         noActiveBTN: false,
         finishedChars: false,
+        activeCardChars: null
     }
+    // char__item_selected
 
     getMarvelData = new GetMarvelData();
 
@@ -81,11 +83,11 @@ class CharList extends Component{
         this.myRef = elem
     }
 
-    onGetIdChars = (id, name, e) => {
-        this.props.getId(id)      
-        // if(name === e.target)
-        console.log(e.currentTarget.innerText);
-        console.log(name);
+    onGetIdChars = (id) => {
+        this.props.getId(id)
+        this.setState({
+            activeCardChars: id
+        })        
     }
     
     render(){
@@ -96,20 +98,23 @@ class CharList extends Component{
         const spinnerBlock = spinner ? <Spinner/> : null
         const errorBlock = error ? <Error/> : null
         // Создание повторяющейся верстки с различным содержанием - разными пероснажами
-        let li = chars.map(item => {                
+        let li = chars.map((item, i) => {                
                 let styleRandomchar = {};   
                 if(item.img === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                     styleRandomchar = {objectFit: "contain"}
                 } else {
                     styleRandomchar = {objectFit: "cover"}
                 }
+                let active = this.state.activeCardChars === item.id
+                const clazz = active ? "char__item_selected" : ""
 
                 return(
                     <li
-                    onClick={(e)=> {this.onGetIdChars(item.id, item.name, e)}}
+                    onClick={(e)=> {this.onGetIdChars(item.id)}}
+                    className = {`char__item ${clazz}`}
                     ref = {this.getRef}
-                    key={item.id} 
-                    className="char__item">
+                    tabIndex={i+1}
+                    key={item.id}>
                         <img style={styleRandomchar} src={item.img} alt="abyss"/>
                         <div className="char__name">{item.name}</div>
                     </li>

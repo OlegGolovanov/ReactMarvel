@@ -24,7 +24,8 @@ class App extends Component {
                 <main>
                     <RandomChar/>
                     <div className="char__content">
-                        <CharList getId = {this.getId}/>
+                        <CharList getId = {this.getId}
+                        id = {this.state.id}/>
                         <ErrorBoundary>
                             <CharInfo id = {this.state.id}/>
                         </ErrorBoundary>
