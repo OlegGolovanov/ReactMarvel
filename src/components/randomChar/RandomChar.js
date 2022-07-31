@@ -1,52 +1,65 @@
+// Этот компонент переписал с классового на функциональный. Поэтому
+// оставшийся код от классового компанента закомментирован.
+
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
-import { Component } from 'react/cjs/react.production.min';
 import GetMarvelData from '../../services/GetMarvelData'
 import Spinner from "../Spinner/spinner"
 import Error from "../error/error.js"
+import { useState, useEffect} from 'react';
 
-class RandomChar extends Component{   
-    state = {
-        // Записываем состояние в отдельное совойство, 
-        // а не в корень, чтобы иметь возможность расширять 
-        // состояния дописывая в него новые свойства
-        char: {},
-        spinner: true,
-        error: false
-    }    
-    getMarvelData = new GetMarvelData();
+const RandomChar = () => {   
+    // state = {        
+    //     char: {},
+    //     spinner: true,
+    //     error: false
+    // }   
+    // Записываем состояние в отдельное совойство, 
+    // а не в корень, чтобы иметь возможность расширять 
+     // состояния дописывая в него новые свойства
+    const [char, setChar] = useState({});    
+    const [spinner, setSpinner] = useState(true);  
+    const [error, setError] = useState(false);
+    
+    const getMarvelData = new GetMarvelData();
 
     // Не обязательно. Выводим отдельную в функцию
     // запись состояния
-    _setState = (char) => { 
-        this.setState({
-            char,
-            spinner: false
-        })
+    const _setState = (char) => { 
+        // this.setState({
+        //     char,
+        //     spinner: false
+        // })
+        setChar(char);
+        setSpinner(false);
     }
+    
     // Не обязательно. Смена сосотояния 
     // при ошибке
-    _setStateError = () => { 
-        this.setState({
-            spinner: false,
-            error: true
-        })
+    const _setStateError = () => { 
+        // this.setState({
+        //     spinner: false,
+        //     error: true
+        // })
+        setSpinner(false);
+        setError(true);
     }
 
-    _onSpinner =()=> {
-        this.setState({
-            spinner: true           
-        })
+    const _onSpinner = () => {
+        // this.setState({
+        //     spinner: true           
+        // })
+        setSpinner(true);
     }  
     
     // Загрузка данных из сервера
     // для сайта
-    changeCharacter = () => {
+    const changeCharacter = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
         // Чтобы спиннер запускался в момнет запроса данных с сервера
-        this._onSpinner()
+        _onSpinner()
         // Конструктор с запросом на сервер.       
-        this.getMarvelData
+        getMarvelData
         // Метод, в котором храниться в fetch        
         .resPostCharacter(id)
         // Промисы
@@ -55,43 +68,46 @@ class RandomChar extends Component{
         // ответ от сервера записывается в эту функцию без явного
         // написания об этом.
         // .then(char=> this._setState(char)) длинная запись;
-        .then(this._setState)
-        .catch(this._setStateError);
+        .then(_setState)
+        .catch(_setStateError);
     }
 
-    componentDidMount(){
-        this.changeCharacter();
-    }    
+    // componentDidMount(){
+    //     this.changeCharacter();
+    // }
+    useEffect(()=> {
+        changeCharacter();    
+    // Чтобы по следующей строке не выскакивала ошибка
+    // eslint-disable-next-line
+    }, [])   
 
-    render(){        
     //    Поскольку вытаскиваем не из корня состояния, а из одного из 
     //     объектов состояния
-        const {spinner, char, error} = this.state;
-        const spinnerBlock = spinner ? <Spinner/> : null;
-        const charBlock = !(spinner || error) ?  <RandomCharShow char= {char}/> :null;
-        const errorBlock = error ? <Error/> : null
+    const spinnerBlock = spinner ? <Spinner/> : null;
+    const charBlock = !(spinner || error) ?  <RandomCharShow char= {char}/> :null;
+    const errorBlock = error ? <Error/> : null
 
-        return (
-            <div className="randomchar">
-                {spinnerBlock}
-                {charBlock}
-                {errorBlock}
-                <div className="randomchar__static">
-                    <p className="randomchar__title">
-                        Random character for today!<br/>
-                        Do you want to get to know him better?
-                    </p>
-                    <p className="randomchar__title">
-                        Or choose another one
-                    </p>
-                    <button onClick={this.changeCharacter} className="button button__main">
-                        <div className="inner">try it</div>
-                    </button>
-                    <img src={mjolnir} alt="mjolnir" className="randomchar__decoration"/>
-                </div>               
-            </div>
-        )
-    }
+    return (
+        <div className="randomchar">
+            {spinnerBlock}
+            {charBlock}
+            {errorBlock}
+            <div className="randomchar__static">
+                <p className="randomchar__title">
+                    Random character for today!<br/>
+                    Do you want to get to know him better?
+                </p>
+                <p className="randomchar__title">
+                    Or choose another one
+                </p>
+                <button onClick={changeCharacter} className="button button__main">
+                    <div className="inner">try it</div>
+                </button>
+                <img src={mjolnir} alt="mjolnir" className="randomchar__decoration"/>
+            </div>               
+        </div>
+    )
+
 }
 
 

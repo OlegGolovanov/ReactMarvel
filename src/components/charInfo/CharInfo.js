@@ -1,36 +1,39 @@
+// Этот компонент переписал с классового на функциональный. Поэтому
+// оставшийся код от классового компанента закомментирован.
+
 import './charInfo.scss';
-
-import { Component} from 'react/cjs/react.production.min';
-
+import { useEffect, useState } from 'react';
 import GetMarvelData from '../../services/GetMarvelData'
 import Spinner from "../Spinner/spinner"
 import Error from "../error/error.js"
 import Skeleton from "../skeleton/Skeleton"
 
 
-class CharInfo extends Component {
-    state = {
-        char: null,
-        error: false,
-        spinner: false
-    }
+const CharInfo = ({id}) => {
+    // state = {
+    //     char: null,
+    //     error: false,
+    //     spinner: false
+    // }
     
+    const [char, setChar] = useState(); 
+    const [error, setError] = useState(); 
+    const [spinner, setSpinner] = useState(); 
 
-    getMarvelData = new GetMarvelData();   
-   
+    const getMarvelData = new GetMarvelData();
 
-    changeCharacter = () => {
+    const changeCharacter = () => {
         // Если id еще не выбран, то команды ниже не 
         // запустятся, поскольку сработает return
-        const {id} = this.props
+        // const {id} = this.props
         
         if(!id) {
             return
         }
         // Чтобы спиннер запускался в момнет запроса данных с сервера
-        this._onSpinner()
+        _onSpinner()
         // Конструктор с запросом на сервер.       
-        this.getMarvelData
+        getMarvelData
         // Метод, в котором храниться в fetch        
             .resPostCharacter(id)
             // Промисы
@@ -39,61 +42,77 @@ class CharInfo extends Component {
             // ответ от сервера записывается в эту функцию без явного
             // написания об этом.
             // .then(char=> this._setState(char)) длинная запись;
-            .then(this._creationChar)
-            .catch(this._setStateError);
+            .then(_creationChar)
+            .catch(_setStateError);
     }    
 
-    componentDidMount(){
-        this.changeCharacter();
+    // componentDidMount(){
+    //     this.changeCharacter();
+    // }
+    
+    useEffect(()=>{
+        changeCharacter();    
+    // Чтобы по следующей строке не выскакивала ошибка
+    // eslint-disable-next-line
+    }, []) 
+
+    // componentDidUpdate(prevProps) {       
+    //     if(this.props.id !== prevProps.id) {
+    //         this.changeCharacter();
+    //     }        
+    // }
+    useEffect(()=>{
+        changeCharacter();    
+    // Чтобы по следующей строке не выскакивала ошибка
+     // eslint-disable-next-line
+    }, [id])
+
+
+    // _setStateError = () => {
+    //     this.setState({
+    //         error: true,
+    //         spinner: false
+    //     })        
+    // }
+    const _setStateError = ()=> {
+        setError(true);
+        setSpinner(false);
     }
 
-    componentDidUpdate(prevProps) {       
-        if(this.props.id !== prevProps.id) {
-            this.changeCharacter();
-        }        
+    const _creationChar = (char) => {
+        setChar(char);
+        setSpinner(false);
+        // this.setState({
+        //     char,
+        //     spinner: false,
+        // })
     }
 
-    _setStateError = () => {
-        this.setState({
-            error: true,
-            spinner: false
-        })
-    }
-
-    _creationChar = (char) => {
-        this.setState({
-            char,
-            spinner: false,
-        })
-    }
-
-    _onSpinner = ()=> {
-        this.setState({
-            spinner: true           
-        })
+    const _onSpinner = ()=> {
+        setSpinner(true)
+        // this.setState({
+        //     spinner: true           
+        // })
     } 
-
-    render(){
-        const {spinner, error, char} = this.state;
-        // Если спиннер в позиции true то показывается он
-        const loading = spinner ? <Spinner/> : null
-        // Если ошибка в позиции true то показывается она
-        const errorMessage = error ? <Error/> : null        
-        // Если задействованны или спиннер, ошибка, выбран персонаж, то ничего не показывается,
-        // а если ничего не задействованно то показывается заглушка (скелетон)
-        const skeleton = spinner || error || char ? null : <Skeleton/>  
-        // Если отключены спиннер, ошибка и выбран персонаж, то показывается
-        // персонаж
-        const charInfo = !(spinner || error || !char) ? <Char char = {char}/> : null
-        return (
-            <div className="char__info">               
-                {skeleton}
-                {loading}
-                {charInfo}
-                {errorMessage}
-            </div>
-        )
-    }
+    // Если спиннер в позиции true то показывается он
+    const loading = spinner ? <Spinner/> : null
+    // Если ошибка в позиции true то показывается она
+    const errorMessage = error ? <Error/> : null        
+    // Если задействованны или спиннер, ошибка, выбран персонаж, то ничего не показывается,
+    // а если ничего не задействованно то показывается заглушка (скелетон)
+    const skeleton = spinner || error || char ? null : <Skeleton/>  
+    // Если отключены спиннер, ошибка и выбран персонаж, то показывается
+    // персонаж
+    const charInfo = !(spinner || error || !char) ? <Char char = {char}/> : null
+    return (
+        <div className="char__info">               
+            {skeleton}
+            {loading}
+            {charInfo}
+            {errorMessage}
+        </div>
+    )
+    
 }
 
 

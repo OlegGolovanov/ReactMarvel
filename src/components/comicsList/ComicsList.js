@@ -2,10 +2,6 @@ import './comicsList.scss';
 import uw from '../../resources/img/UW.png';
 import xMen from '../../resources/img/x-men.png';
 import { Component } from 'react/cjs/react.production.min';
-import GetMarvelData from '../../services/GetMarvelData'
-import Spinner from "../Spinner/spinner"
-import Error from "../error/error.js"
-
 
 class ComicsList extends Component{
     render(){
