@@ -6,36 +6,30 @@ import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 import decoration from '../../resources/img/vision.png';
 
-import { Component } from "react/cjs/react.production.min";
+import { useState } from "react";
 
-class App extends Component {
-    state = {
-        id: null
-    }
-
-    getId = (id) => {
-        this.setState({id})
-    }
+const App = () => {
+    const [id, setId] = useState(null);
     
-    render(){
-        return (
-            <div className="app">
-                <AppHeader/>
-                <main>
-                    <RandomChar/>
-                    <div className="char__content">
-                        <CharList getId = {this.getId}
-                        id = {this.state.id}/>
-                        <ErrorBoundary>
-                            <CharInfo id = {this.state.id}/>
-                        </ErrorBoundary>
-                        
-                    </div>
-                    <img className="bg-decoration" src={decoration} alt="vision"/>
-                </main>
-            </div>
-        )
+    function getId(num){
+        setId(num)
     }
+    return (
+        <div className="app">
+            <AppHeader/>
+            <main>
+                <RandomChar/>
+                <div className="char__content">
+                    <CharList getId = {getId}
+                    id = {id}/>
+                    <ErrorBoundary>
+                        <CharInfo id = {id}/>
+                    </ErrorBoundary>                    
+                </div>
+                <img className="bg-decoration" src={decoration} alt="vision"/>
+            </main>
+        </div>
+    )    
 }
 
 export default App;
